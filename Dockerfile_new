@@ -1,5 +1,5 @@
 # 使用更小的基础镜像
-FROM ubuntu/python:3.12-24.04
+FROM bitnami/python:3.13-debian-12
 
 # 设置工作目录
 WORKDIR /app
