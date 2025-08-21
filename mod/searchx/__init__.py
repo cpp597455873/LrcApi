@@ -4,7 +4,7 @@ from mod.searchx import api, kugou, netease
 
 
 def search_all(title, artist, album, timeout=15):
-    funcs = [api, kugou, netease]
+    funcs = [kugou, netease]
     results = []
 
     def request(task):
