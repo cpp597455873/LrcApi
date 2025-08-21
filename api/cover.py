@@ -45,17 +45,25 @@ def cover_api():
     artist = unquote_plus(request.args.get('artist', ''))
     album = unquote_plus(request.args.get('album', ''))
     req_args = {key: request.args.get(key) for key in request.args}
-    # 构建目标URL
-    target_url = 'http://api.lrc.cx/cover'
-    result = requests.get(target_url, params={"title": title}, headers=headers)
-    if result.status_code == 200:
-        return result.content, 200, {"Content-Type": result.headers['Content-Type']}
-    elif res := local_cover_search(title, artist, album):
+
+    res=local_cover_search(title, artist, album)
+    if res:
         return res
-    elif result.status_code == 404:
-        abort(404)
     else:
-        abort(500, '服务存在错误，暂时无法查询')
+        abort(404)
+
+
+    # 构建目标URL
+    # target_url = 'http://api.lrc.cx/cover'
+    # result = requests.get(target_url, params=req_args, headers=headers)
+    # if result.status_code == 200:
+    #     return result.content, 200, {"Content-Type": result.headers['Content-Type']}
+    # elif res := local_cover_search(title, artist, album):
+    #     return res
+    # elif result.status_code == 404:
+    #     abort(404)
+    # else:
+    #     abort(500, '服务存在错误，暂时无法查询')
 
 
 @v1_bp.route('/cover/<path:s_type>', methods=['GET'], endpoint='cover_new_endpoint')
