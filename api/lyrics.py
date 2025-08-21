@@ -43,12 +43,16 @@ def lyrics():
             file_content: str | None = read_file_with_encoding(lrc_path, ['utf-8', 'gbk'])
             if file_content is not None:
                 return lrc.standard(file_content)
-    try:
-        lrc_in = tag.read(path).get("lyrics", "")
-        if type(lrc_in) is str and len(lrc_in) > 0:
-            return lrc_in
-    except:
-        pass
+
+    # 不读取本地
+    # try:
+    #     lrc_in = tag.read(path).get("lyrics", "")
+    #     if type(lrc_in) is str and len(lrc_in) > 0:
+    #         return lrc_in
+    # except:
+    #     pass
+
+
     try:
         # 通过request参数获取音乐Tag
         title = unquote_plus(request.args.get('title', ''))
