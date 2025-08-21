@@ -11,6 +11,7 @@ from mod import searchx
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/"}
 
+
 # 跟踪重定向
 
 
@@ -23,7 +24,7 @@ def follow_redirects(url, max_redirects=10):
             url = response.headers['Location']
         else:
             abort(404)  # 或者根据需求选择其他状态码
-    abort(404)          # 达到最大重定向次数仍未获得 200 状态码，放弃
+    abort(404)  # 达到最大重定向次数仍未获得 200 状态码，放弃
 
 
 def local_cover_search(title: str, artist: str, album: str):
@@ -33,6 +34,7 @@ def local_cover_search(title: str, artist: str, album: str):
             res = requests.get(cover_url, headers=headers)
             if res.status_code == 200:
                 return res.content, 200, {"Content-Type": res.headers['Content-Type']}
+
 
 @app.route('/cover', methods=['GET'], endpoint='cover_endpoint')
 @require_auth_decorator(permission='rw')
@@ -45,7 +47,7 @@ def cover_api():
     req_args = {key: request.args.get(key) for key in request.args}
     # 构建目标URL
     target_url = 'http://api.lrc.cx/cover'
-    result = requests.get(target_url, params=req_args, headers=headers)
+    result = requests.get(target_url, params={"title": title}, headers=headers)
     if result.status_code == 200:
         return result.content, 200, {"Content-Type": result.headers['Content-Type']}
     elif res := local_cover_search(title, artist, album):
