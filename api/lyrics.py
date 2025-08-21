@@ -57,12 +57,17 @@ def lyrics():
         result: list = searchx.search_all(title=title, artist=artist, album=album, timeout=30)
         # 降级为按照标题+歌手搜索
         if not result or not result[0].get('lyrics'):
+            logger.info("尝试根据标题+歌手搜索")
             result: list = searchx.search_all(title=title, artist=artist, album="", timeout=30)
         # 降级为按照标题
         if not result or not result[0].get('lyrics'):
+            logger.info("尝试根据标题搜索")
             result: list = searchx.search_all(title=title, artist="", album="", timeout=30)
         if not result[0].get('lyrics'):
+            logger.info("没有搜索结果")
             return "Lyrics not found.", 404
+        else:
+            logger.info(f"一共{len(result)}条搜索结果")
         return result[0].get('lyrics')
     except:
         return "Lyrics not found.", 404
