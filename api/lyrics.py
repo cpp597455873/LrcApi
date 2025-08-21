@@ -58,7 +58,7 @@ def lyrics():
         # 降级为按照标题+歌手搜索
         if not result or not result[0].get('lyrics'):
             result: list = searchx.search_all(title=title, artist=artist, album="", timeout=30)
-        # 降级为按照标题+搜索
+        # 降级为按照标题
         if not result or not result[0].get('lyrics'):
             result: list = searchx.search_all(title=title, artist="", album="", timeout=30)
         if not result[0].get('lyrics'):
